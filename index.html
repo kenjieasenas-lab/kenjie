@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kenjie Aseñas | Portfolio</title>
+<title>Kenjie Aseñas</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 
@@ -15,13 +15,14 @@
 }
 
 body {
-  font-family: 'Inter', sans-serif;
+  font-family: 'Inter', arial;
   background: #f6f7f9;
   color: #111;
   line-height: 1.6;
   padding: 40px;
 }
 
+/* ================= LAYOUT ================= */
 .container {
   max-width: 1000px;
   margin: auto;
@@ -30,7 +31,7 @@ body {
   gap: 30px;
 }
 
-/* LEFT CARD */
+/* ================= LEFT CARD ================= */
 .profile-card {
   background: #fff;
   padding: 25px;
@@ -70,6 +71,7 @@ body {
   margin: 5px;
   border: 1px solid #ddd;
   color: #111;
+  cursor: pointer;
 }
 
 .btn.primary {
@@ -78,7 +80,7 @@ body {
   border: none;
 }
 
-/* RIGHT CONTENT */
+/* ================= RIGHT CONTENT ================= */
 .content {
   display: flex;
   flex-direction: column;
@@ -112,10 +114,65 @@ body {
   color: #777;
 }
 
-/* Responsive */
+/* ================= MODAL ================= */
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  z-index: 1000;
+}
+
+.modal.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.modal-content {
+  width: 80%;
+  height: 90%;
+  background: #fff;
+  border-radius: 12px;
+  position: relative;
+  overflow: hidden;
+  transform: scale(0.92);
+  transition: transform 0.3s ease;
+}
+
+.modal.active .modal-content {
+  transform: scale(1);
+}
+
+.modal iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+.close {
+  position: absolute;
+  top: 12px;
+  right: 18px;
+  font-size: 28px;
+  cursor: pointer;
+  z-index: 10;
+}
+
+/* ================= RESPONSIVE ================= */
 @media(max-width: 800px) {
   .container {
     grid-template-columns: 1fr;
+  }
+
+  .modal-content {
+    width: 95%;
+    height: 90%;
   }
 }
 </style>
@@ -130,12 +187,14 @@ body {
     <img src="profile.jpg" alt="Profile Photo">
 
     <h2>Kenjie Aseñas</h2>
-    <p>BSBM Financial Management Graduate</p>
+    <p>Finance Operations (AP & AR)</p>
     <p>Tanza, Cavite · Philippines</p>
 
     <div class="btn-group">
-      <a href="#" class="btn primary">View Resume</a>
-      <a href="mailto:your@email.com" class="btn">Email Me</a>
+      <button class="btn primary" onclick="openResume()">View Resume</button>
+      <a href="mailto:kenjieasenas@gmail.com?subject=Inquiry%20from%20Portfolio&body=Hi%20Kenjie," class="btn">
+        Email Me
+      </a>
     </div>
   </div>
 
@@ -145,10 +204,9 @@ body {
     <div class="card">
       <h3>About Me</h3>
       <p>
-        I am a Business Management student majoring in Financial Management,
-        focused on developing strong analytical, financial, and data-driven
-        decision-making skills. I am currently seeking opportunities where I
-        can apply my knowledge and continue learning in real-world environments.
+        Business Management graduate majoring in Financial Management with hands-on
+        experience in finance operations, full-cycle accounts payable and receivable,
+        invoicing, and compliance support within a fast-paced startup environment.
       </p>
     </div>
 
@@ -156,24 +214,59 @@ body {
       <h3>Experience</h3>
 
       <div class="timeline-item">
-        <strong>Finance Intern – Interleukin</strong><br>
-        <span>2025</span>
-        <p>Assisted in financial documentation, reporting, and operational support.</p>
+        <strong>Finance Operations Intern – Interleukin Innovations Inc.</strong><br>
+        <span>Mar 2025 – Jun 2025</span>
+        <p>
+          Supported end-to-end AP & AR processes, invoicing, collections, and financial
+          tracking while coordinating executive approvals and compliance requirements.
+        </p>
       </div>
 
       <div class="timeline-item">
-        <strong>Business Management Student</strong><br>
-        <span>Cavite State University</span>
+        <strong>Sales Agent – Uniserv Marketing Consultancy</strong><br>
+        <span>Feb 2024 – Mar 2024</span>
+        <p>
+          Managed client outreach, lead tracking, and reporting using Excel in a
+          high-volume, night-shift sales environment.
+        </p>
       </div>
     </div>
 
     <div class="card">
       <h3>Skills</h3>
-      <p>Financial Analysis · Excel · Data Analysis · Research · Basic Web Development</p>
+      <p>
+        Finance Operations · Accounts Payable & Receivable · Invoicing & Collections ·
+        Excel · QuickBooks · Financial Documentation · Compliance Support
+      </p>
     </div>
 
   </div>
 </div>
+
+<!-- ================= RESUME MODAL ================= -->
+<div id="resumeModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeResume()">×</span>
+    <iframe src="resume.pdf" title="Resume"></iframe>
+  </div>
+</div>
+
+<script>
+function openResume() {
+  document.getElementById("resumeModal").classList.add("active");
+}
+
+function closeResume() {
+  document.getElementById("resumeModal").classList.remove("active");
+}
+
+// Close on ESC key
+document.addEventListener("keydown", function(e) {
+  if (e.key === "Escape") {
+    closeResume();
+  }
+});
+</script>
 
 </body>
 </html>
