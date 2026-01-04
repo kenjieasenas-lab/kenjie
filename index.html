@@ -22,6 +22,11 @@ body {
   padding: 40px;
 }
 
+/* lock background scroll */
+body.modal-open {
+  overflow: hidden;
+}
+
 /* ================= LAYOUT ================= */
 .container {
   max-width: 1000px;
@@ -119,7 +124,7 @@ body {
   position: fixed;
   inset: 0;
   background: rgba(0,0,0,0.6);
-  backdrop-filter: blur(6px);
+  backdrop-filter: blur(8px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -141,7 +146,7 @@ body {
   border-radius: 12px;
   position: relative;
   overflow: hidden;
-  transform: scale(0.92);
+  transform: scale(0.95);
   transition: transform 0.3s ease;
 }
 
@@ -149,6 +154,7 @@ body {
   transform: scale(1);
 }
 
+/* PDF only scrolls */
 .modal iframe {
   width: 100%;
   height: 100%;
@@ -158,14 +164,26 @@ body {
 .close {
   position: absolute;
   top: 12px;
-  right: 18px;
-  font-size: 28px;
+  right: 16px;
+  font-size: 26px;
   cursor: pointer;
   z-index: 10;
+  background: #111;
+  color: #fff;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* ================= RESPONSIVE ================= */
 @media(max-width: 800px) {
+  body {
+    padding: 20px;
+  }
+
   .container {
     grid-template-columns: 1fr;
   }
@@ -244,23 +262,30 @@ body {
 </div>
 
 <!-- ================= RESUME MODAL ================= -->
-<div id="resumeModal" class="modal">
-  <div class="modal-content">
+<div id="resumeModal" class="modal" onclick="closeResume()">
+  <div class="modal-content" onclick="event.stopPropagation()">
     <span class="close" onclick="closeResume()">×</span>
-    <iframe src="resume.pdf" title="Resume"></iframe>
+
+    <!-- hide browser PDF UI -->
+    <iframe
+      src="resume.pdf#toolbar=0&navpanes=0&scrollbar=1"
+      title="Resume">
+    </iframe>
   </div>
 </div>
 
 <script>
 function openResume() {
   document.getElementById("resumeModal").classList.add("active");
+  document.body.classList.add("modal-open");
 }
 
 function closeResume() {
   document.getElementById("resumeModal").classList.remove("active");
+  document.body.classList.remove("modal-open");
 }
 
-// Close on ESC key
+// Close on ESC
 document.addEventListener("keydown", function(e) {
   if (e.key === "Escape") {
     closeResume();
